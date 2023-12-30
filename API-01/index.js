@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 4000;
-const users = require('./mock data/data.json');
+const PORT = 4000;
+const users = require('./mock data/data.json'); // from mockaroo
+const fs = require('fs');
+
+// middleware
+// used for processing form data submitted through HTML forms
+app.use(express.urlencoded({ extended : false }));
 
 // Routes
 app.get('/users', (req, res) => {
@@ -20,7 +25,17 @@ app.route('/api/users')
     })
     .post((req, res) => {
         // Create a new user
-        res.json({status : 'pending'});
+        const body = req.body;
+        // console.log(body); 
+        users.push({id : users.length + 1, ...body});
+        fs.writeFile('./mock data/data.json', JSON.stringify(users), (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({status : 'success'});
+            }
+        });
+        // res.json({status : 'pending'});
     })
 
 app.route('/api/users/:id')
@@ -39,7 +54,23 @@ app.route('/api/users/:id')
     })
     .delete((req, res) => {
         // TODO: delete user
-        res.join({status : 'pending'});
+        const id = Number(req.params.id);
+        const userIndex = users.findIndex((user) => user.id === id);
+
+        if (userIndex !== -1) {
+            users.splice(userIndex, 1);
+            // now update the data.json file
+            fs.writeFile('./mock data/data.json', JSON.stringify(users), (err) => {
+                if(err) {
+                    console.error('Error writing to data.json:', err);
+                } else {
+                    res.json({status : 'success'});
+                }
+            });
+
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
     });
 
-app.listen(port, () => console.log(`listening on ${port}`));
+app.listen(PORT, () => console.log(`listening on ${PORT}`));

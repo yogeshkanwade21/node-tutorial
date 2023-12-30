@@ -1,45 +1,5 @@
 [
   {
-    "id": 1,
-    "first_name": "Dorothea",
-    "last_name": "Bourner",
-    "email": "dbourner0@cisco.com",
-    "gender": "Female",
-    "job_title": "Internal Auditor"
-  },
-  {
-    "id": 2,
-    "first_name": "Clayton",
-    "last_name": "Figger",
-    "email": "cfigger1@ucoz.com",
-    "gender": "Male",
-    "job_title": "Engineer IV"
-  },
-  {
-    "id": 3,
-    "first_name": "Tomi",
-    "last_name": "Cleveley",
-    "email": "tcleveley2@abc.net.au",
-    "gender": "Female",
-    "job_title": "General Manager"
-  },
-  {
-    "id": 4,
-    "first_name": "Leora",
-    "last_name": "Cowpland",
-    "email": "lcowpland3@hibu.com",
-    "gender": "Female",
-    "job_title": "Accountant IV"
-  },
-  {
-    "id": 5,
-    "first_name": "Ambrosius",
-    "last_name": "Loxdale",
-    "email": "aloxdale4@vimeo.com",
-    "gender": "Male",
-    "job_title": "Web Designer II"
-  },
-  {
     "id": 6,
     "first_name": "Fey",
     "last_name": "Brocklebank",
@@ -7992,11 +7952,11 @@
     "job_title": "Structural Engineer"
   },
   {
-    "id": 1000,
-    "first_name": "Sissy",
-    "last_name": "Jillins",
-    "email": "sjillinsrr@so-net.ne.jp",
-    "gender": "Female",
-    "job_title": "Civil Engineer"
+    "id": 1001,
+    "first_name": "Yogesh",
+    "last_name": "Kanwade",
+    "email": "yogeshkanwade2015@gmail.com",
+    "gender": "male",
+    "job_title": "intern"
   }
 ]
