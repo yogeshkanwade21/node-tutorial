@@ -27,15 +27,18 @@ app.route('/api/users')
         // Create a new user
         const body = req.body;
         // console.log(body); 
+        if (!body || !body.first_name || !body.last_name || !body.email || !body.gender || !body.job_title) {
+            res.status(400).json({status : 'Bad Request (all fields are required)'});
+        }
         users.push({id : users.length + 1, ...body});
         fs.writeFile('./mock data/data.json', JSON.stringify(users), (err) => {
             if (err) {
                 console.log(err);
+                res.status(500).json({ error: 'Internal Server Error' });
             } else {
-                res.json({status : 'success'});
+                res.status(201).json({status : 'success'});
             }
         });
-        // res.json({status : 'pending'});
     })
 
 app.route('/api/users/:id')
@@ -50,7 +53,39 @@ app.route('/api/users/:id')
     })
     .patch((req, res) => {
         // TODO: edit user
-        res.json({status : 'pending'});
+        const {id, first_name, last_name, email, gender, job_title} = req.body;
+        // console.log(body);
+        const paramID = Number(req.params.id);
+
+        const userIndex = users.findIndex((user) => user.id === paramID);
+        if (userIndex !== -1) {
+            if (first_name) {
+                users[userIndex].first_name = first_name;
+            }
+            if (last_name) {
+                users[userIndex].last_name = last_name;
+            }
+            if (email) {
+                users[userIndex].email = email;
+            }
+            if (gender) {
+                users[userIndex].gender = gender;
+            }
+            if (job_title) {
+                users[userIndex].job_title = job_title;
+            }
+            fs.writeFile('./mock data/data.json', JSON.stringify(users), (err) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({ error: 'Internal Server Error' });
+                } else {
+                    res.json({ status: 'success'});
+                }
+            })
+
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
     })
     .delete((req, res) => {
         // TODO: delete user
