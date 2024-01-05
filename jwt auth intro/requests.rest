@@ -1,11 +1,28 @@
 GET http://localhost:5000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWW9nZXNoIiwiaWF0IjoxNzA0NDQ5NDMwfQ.gr2I1sQjrB6QNV81vWDxu1mzirZbeVwHihRi-I3ov_U
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWW9nZXNoIiwiaWF0IjoxNzA0NDU0NjgxLCJleHAiOjE3MDQ0NTQ3MDZ9.xd6xqb_mZ2S6qsu9VUhZt7KngTryj38Zk4Rx5-zl81s
 ###
 
-POST http://localhost:6000/login
+POST http://localhost:5100/login
 Content-Type: application/json
 
 {
     "username": "Yogesh"
+}
+
+###
+
+POST http://localhost:5100/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWW9nZXNoIiwiaWF0IjoxNzA0NDU1MTA1fQ.AnwZmcqx55fP8L5Q8CpEE93dPlFap7qy6qT65Wj9hOY"
+}
+
+###
+
+DELETE http://localhost:5100/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWW9nZXNoIiwiaWF0IjoxNzA0NDU1MTA1fQ.AnwZmcqx55fP8L5Q8CpEE93dPlFap7qy6qT65Wj9hOY"
 }

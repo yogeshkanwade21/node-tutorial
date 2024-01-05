@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "dev2": "nodemon server2.js"
+    "dev2": "nodemon server2.js",
+    "devAuth": "nodemon authServer.js"
   },
   "author": "yogesh kanwade",
   "license": "ISC",
