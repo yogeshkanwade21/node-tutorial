@@ -4,7 +4,10 @@ const userRouter = require('./routes/user');
 const urlencoded = require('./middlewares');
 const User = require('./models/user');
 const PORT = 4000;
-const handleLoginPage = require('./controllers/user')
+const { v4 : uuid } = require('uuid');
+const {setUser} = require('./service/auth');
+const restrictToLoggedInUsers = require('./middlewares/auth');
+const cookieParser = require('cookie-parser');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -22,9 +25,10 @@ connectMongoDb('mongodb://127.0.0.1:27017/node-tutorial')
 
 // middleware for processing form data
 app.use(urlencoded());
+app.use(cookieParser());
 
 // Router
-app.use('/users', userRouter);
+app.use('/users', restrictToLoggedInUsers, userRouter);
 
 // Signup
 app.post('/signup', async (req, res) => {
@@ -34,7 +38,7 @@ app.post('/signup', async (req, res) => {
         email, 
         password
     });
-    res.redirect('/users');
+    return res.redirect('/users');
 })
 
 app.get('/signup', async (req, res) => {
@@ -52,7 +56,10 @@ app.post('/login', async (req, res) => {
     if (!user) {
         res.render('login');
     }
-    res.redirect('/users');
+    const sessionId = uuid();
+    setUser(sessionId, user);
+    res.cookie("sessionId", sessionId);
+    return res.redirect('/users');
 })
 
 // server
