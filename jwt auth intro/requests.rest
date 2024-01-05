@@ -1,0 +1,11 @@
+GET http://localhost:5000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiWW9nZXNoIiwiaWF0IjoxNzA0NDQ5NDMwfQ.gr2I1sQjrB6QNV81vWDxu1mzirZbeVwHihRi-I3ov_U
+
+###
+
+POST http://localhost:6000/login
+Content-Type: application/json
+
+{
+    "username": "Yogesh"
+}
