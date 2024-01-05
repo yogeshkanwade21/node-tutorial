@@ -26,6 +26,7 @@ app.use(urlencoded());
 // Router
 app.use('/users', userRouter);
 
+// Signup
 app.post('/signup', async (req, res) => {
     const {name, email, password} = req.body;
     await User.create({
@@ -38,6 +39,20 @@ app.post('/signup', async (req, res) => {
 
 app.get('/signup', async (req, res) => {
     res.render('signup');
+})
+
+// Login
+app.get('/login', (req, res) => {
+    res.render('login');
+})
+
+app.post('/login', async (req, res) => {
+    const {name, password} = req.body;
+    const user = await User.findOne({firstName: name, password});
+    if (!user) {
+        res.render('login');
+    }
+    res.redirect('/users');
 })
 
 // server
