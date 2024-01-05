@@ -1,0 +1,24 @@
+<%- include('header', { title: 'Authentication Example' }) -%>
+
+<h1>Signup</h1>
+<form action="/signup" method="post">
+
+    <label for="Name">Name:</label>
+    <input type="text" name="name" id="name" required>
+    <br>
+
+    <label for="Email">Email:</label>
+    <input type="email" name="email" id="email" required>
+    <br>
+
+    <label for="Password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <br>
+
+    <button type="submit">
+        Sign Up
+    </button>
+
+</form>
+
+<%- include('footer') -%>
