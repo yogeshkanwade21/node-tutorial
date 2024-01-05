@@ -19,11 +19,11 @@ async function handleCreateUser(req, res) {
         }
         try {
             const result = await User.create({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                gender: gender,
-                jobTitle: gender
+                firstName,
+                lastName,
+                email,
+                gender,
+                jobTitle
             });
             // console.log(result);
             res.status(201).json({status: 'Created'});
