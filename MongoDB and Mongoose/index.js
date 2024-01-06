@@ -62,6 +62,22 @@ app.post('/login', async (req, res) => {
     return res.redirect('/users');
 })
 
+app.get('/profile', restrictToLoggedInUsers, async (req, res) => {
+    try {
+        const loggedInUser = await User.findOne({firstName: req.user.firstName});
+        // res.json(loggedInUser);
+        const {firstName, email, jobTitle} = loggedInUser;
+        res.render('profile', {
+            firstName, 
+            email, 
+            jobTitle
+        });
+        
+    } catch (error) {
+        console.log('Error fetching user:', error);
+    }
+})
+
 // server
 const server = app.listen(PORT, () => {
     console.log(`server is running on port ${PORT}`);
