@@ -64,6 +64,8 @@ app.post('/login', (req, res) => {
 })
 
 //server configuration
-const server = app.listen(PORT, () => {`Server running on port ${PORT}`})
+const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+})
 
 server.on('error', (err) => console.log(err.message));
