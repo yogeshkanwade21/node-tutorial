@@ -1,0 +1,10 @@
+<%- include('header', { title: 'File Upload' }) -%>
+
+<h1>File Upload with Multer</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="profilePhoto">
+    <button type="submit">Upload</button>
+</form>
+
+<%- include('footer') -%>
