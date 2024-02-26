@@ -1,0 +1,17 @@
+{
+  "name": "socket-intro",
+  "version": "1.0.0",
+  "description": "getting started with socket.io",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon start index.js"
+  },
+  "author": "Yogesh Kanwade",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
