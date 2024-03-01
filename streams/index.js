@@ -1,11 +1,14 @@
 const express = require('express');
 const fs = require('fs');
 const status = require('express-status-monitor');
+const zlib = require('zlib');
 const PORT = 5000;
 
 const app = express();
 
 app.use(status());
+
+fs.createReadStream('./sample.txt').pipe(zlib.createGzip().pipe(fs.createWriteStream('./sample.zip')));
 
 app.get("/", (req, res) => {
     const stream = fs.createReadStream("./sample.txt", 'utf-8');
