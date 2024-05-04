@@ -2,47 +2,44 @@ const express = require('express');
 const app = express();
 const PORT = 4000;
 
-//dummy data
-const users = [
-    { id: 1, name: 'User 1'},
-    { id: 2, name: 'User 2'},
-    { id: 3, name: 'User 3'},
-    { id: 4, name: 'User 4'},
-    { id: 5, name: 'User 5'},
-    { id: 6, name: 'User 6'},
-    { id: 7, name: 'User 7'},
-    { id: 8, name: 'User 8'},
-    { id: 9, name: 'User 9'},
-    { id: 10, name: 'User 10'},
-    { id: 11, name: 'User 11'},
-    { id: 12, name: 'User 12'}
-];
-const posts = [
-    { id: 1, name: 'Post 1'},
-    { id: 2, name: 'Post 2'},
-    { id: 3, name: 'Post 3'},
-    { id: 4, name: 'Post 4'},
-    { id: 5, name: 'Post 5'},
-    { id: 6, name: 'Post 6'},
-    { id: 7, name: 'Post 7'},
-    { id: 8, name: 'Post 8'},
-    { id: 9, name: 'Post 9'},
-    { id: 10, name: 'Post 10'},
-    { id: 11, name: 'Post 11'},
-    { id: 12, name: 'Post 12'}
-];
+//database
+const mongoose = require('mongoose');
+const User = require('./user');
+
+mongoose.connect('mongodb://127.0.0.1:27017/pagination').then(() => {
+    console.log('MongoDB connected');
+    // Dummy data seeding
+    seedDummyData();
+})
+    .catch(err => console.error('MongoDB connection error:', err.message));
+
+
+//function to seed dummy data
+async function seedDummyData() {
+    try {
+        if (await User.countDocuments().exec() > 0) return;
+        await User.insertMany([
+            { name: 'User 1' },
+            { name: 'User 2' },
+            { name: 'User 3' },
+        ]);
+        console.log('Dummy users seeded');
+    } catch (err) {
+        console.error('Error seeding dummy data:', err);
+    }
+}
 
 //middleware
 app.use(express.json());
 function paginatedResults(model) {
-    return (req, res, next) => {
+    return async (req, res, next) => {
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
     
         const startIndex = (page - 1) * 5;
         const endIndex = (page * limit);
         const results = {};
-        if(endIndex < model.length){
+        if(endIndex < await model.countDocuments().exec()) {
             results.next = {
                 page: page + 1,
                 limit: limit
@@ -54,9 +51,13 @@ function paginatedResults(model) {
                 limit: limit
             }
         }
-        results.results = model.slice(startIndex, endIndex);
-        res.paginatedResults = results;
-        next();
+        try {
+            results.results = await model.find().limit(limit).skip(startIndex).exec();
+            res.paginatedResults = results;
+            next();
+        } catch (e) {
+            res.status(500).json({message: e.message});
+        }
     };
 }
 
@@ -64,10 +65,7 @@ app.get('/', (req, res) => {
     res.send("Server running");
 });
 
-app.get('/users', paginatedResults(users), (req, res) => {
-    res.send(res.paginatedResults);
-});
-app.get('/posts', paginatedResults(posts), (req, res) => {
+app.get('/users', paginatedResults(User), (req, res) => {
     res.send(res.paginatedResults);
 });
 
